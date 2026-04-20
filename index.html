@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Family Flow V13 Pro</title>
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Family Flow" />
+  <meta name="theme-color" content="#0d6d70" />
+
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root, [data-theme="light"] {
+      --bg:#f7f6f2; --surface:#fcfbf8; --surface-2:#f1eee8; --line:#dbd7cf; --text:#26231d; --muted:#716f69;
+      --primary:#0d6d70; --primary-2:#d8eceb; --blue:#3d78b8; --green:#4a7d2c; --orange:#d97816; --pink:#b24784; --purple:#7451cc;
+      --danger:#b24049; --shadow:0 12px 28px rgba(27,24,19,.08); --radius:18px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+    }
+    [data-theme="dark"] {
+      --bg:#151412; --surface:#1e1c19; --surface-2:#272420; --line:#37332e; --text:#ece7df; --muted:#aca59a;
+      --primary:#64a8ac; --primary-2:#263738; --blue:#75a6db; --green:#8abc69; --orange:#f1a14a; --pink:#db7eb5; --purple:#a98bf8;
+      --danger:#df6f78; --shadow:0 14px 30px rgba(0,0,0,.32);
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; font-family:Inter,sans-serif; background:var(--bg); color:var(--text);
+      padding-left:var(--safe-left); padding-right:var(--safe-right);
+    }
+    button,input,select,textarea { font:inherit; }
+    .app { display:grid; grid-template-columns: 290px 1fr 360px; min-height:100vh; }
+    .sidebar,.panel { background:var(--surface); border-right:1px solid var(--line); }
+    .panel { border-right:none; border-left:1px solid var(--line); }
+    .sidebar,.main,.panel { padding:20px; }
+    .mobile-tabbar { display:none; }
+    .logo { display:flex; align-items:center; gap:12px; font-weight:800; margin-bottom:18px; }
+    .logo svg { width:34px; height:34px; }
+    .tag { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:var(--primary-2); color:var(--primary); font-size:13px; font-weight:700; }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+    .nav { display:grid; gap:8px; margin:18px 0 24px; }
+    .nav button,.ghost { border:none; background:transparent; text-align:left; padding:12px 14px; border-radius:14px; color:var(--text); cursor:pointer; min-height:44px; }
+    .nav button.active,.nav button:hover,.ghost:hover { background:var(--surface-2); }
+    .member-list,.calendar-list,.event-list,.series-list { display:grid; gap:10px; }
+    .mini { font-size:13px; color:var(--muted); }
+    .member-row,.calendar-row,.event-row,.series-row { display:flex; gap:12px; align-items:center; padding:12px; border:1px solid var(--line); border-radius:16px; background:var(--surface); }
+    .dot { width:12px; height:12px; border-radius:50%; flex:0 0 12px; }
+    .avatar { width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-size:18px; background:var(--surface-2); }
+    .topbar { display:flex; justify-content:space-between; gap:18px; align-items:center; margin-bottom:18px; }
+    .top-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .btn { border:none; padding:12px 16px; border-radius:14px; cursor:pointer; font-weight:700; min-height:44px; }
+    .btn.primary { background:var(--primary); color:white; }
+    .btn.soft { background:var(--primary-2); color:var(--primary); }
+    .hero { padding:22px; display:grid; gap:14px; margin-bottom:18px; }
+    .hero-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:14px; }
+    .metric { padding:16px; border-radius:16px; background:var(--surface-2); }
+    .metric b { display:block; font-size:28px; margin-top:8px; }
+    .layout { display:grid; grid-template-columns: 1.2fr .9fr; gap:18px; }
+    .section { padding:18px; }
+    .section h3 { margin:0 0 12px; font-size:18px; }
+    .grid-two { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .calendar-grid { display:grid; grid-template-columns: repeat(7,1fr); gap:10px; }
+    .day { min-height:128px; background:var(--surface-2); border-radius:16px; padding:10px; display:flex; flex-direction:column; gap:8px; }
+    .event-pill { padding:8px 10px; border-radius:12px; font-size:12px; font-weight:600; color:#fff; }
+    .field { display:grid; gap:6px; margin-bottom:12px; }
+    .field label { font-size:13px; color:var(--muted); font-weight:600; }
+    input,select,textarea { width:100%; background:var(--surface-2); border:1px solid var(--line); color:var(--text); border-radius:12px; padding:12px; min-height:44px; font-size:16px; }
+    .status { margin-top:10px; padding:12px; border-radius:14px; background:var(--surface-2); font-size:13px; color:var(--muted); }
+    .picker { display:flex; flex-wrap:wrap; gap:8px; }
+    .picker button { border:1px solid var(--line); background:var(--surface-2); color:var(--text); padding:9px 11px; border-radius:12px; cursor:pointer; }
+    .picker button.active { background:var(--primary-2); color:var(--primary); border-color:transparent; }
+    .code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; background:var(--surface-2); border:1px solid var(--line); padding:12px; border-radius:14px; white-space:pre-wrap; }
+    .banner { padding:14px 16px; border-radius:16px; background:linear-gradient(135deg,var(--primary-2),transparent); border:1px solid var(--line); }
+
+    @media (max-width: 1180px) {
+      .app { grid-template-columns:1fr; }
+      .panel,.sidebar { border:none; }
+      .layout,.hero-grid,.grid-two { grid-template-columns:1fr; }
+      .main { padding-bottom: calc(92px + var(--safe-bottom)); }
+    }
+    @media (max-width: 820px) {
+      .sidebar { display:none; }
+      .panel { border-left:none; }
+      .main { padding:16px; padding-top: calc(16px + var(--safe-top)); padding-bottom: calc(110px + var(--safe-bottom)); }
+      .topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(14px); padding-top: 4px; }
+      .calendar-grid { grid-template-columns:1fr; }
+      .day { min-height:unset; }
+      .hero,.section { padding:16px; }
+      .mobile-tabbar {
+        position: fixed; left: 0; right: 0; bottom: 0; display:grid; grid-template-columns: repeat(5,1fr);
+        gap:8px; padding:10px 12px calc(10px + var(--safe-bottom));
+        background: color-mix(in srgb, var(--surface) 92%, transparent);
+        backdrop-filter: blur(16px); border-top:1px solid var(--line); z-index:50;
+      }
+      .mobile-tabbar button { min-height:48px; border:none; background:var(--surface-2); border-radius:14px; color:var(--text); font-size:12px; font-weight:700; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <svg viewBox="0 0 48 48" fill="none" aria-label="Family Flow logo">
+        <rect x="5" y="8" width="38" height="30" rx="11" stroke="currentColor" stroke-width="3"/>
+        <path d="M15 24h18M24 15v18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div>Family Flow V13 Pro</div>
+        <div class="mini">iPhone PWA demo</div>
+      </div>
+    </div>
+    <span class="tag">📱 iPhone-ready PWA</span>
+    <div class="nav">
+      <button class="active">🏠 Обзор</button>
+      <button>👨‍👩‍👧‍👦 Семья</button>
+      <button>📆 Календари</button>
+      <button>🔁 Повторы</button>
+      <button>🔐 Авторизация</button>
+      <button>⚡ Realtime</button>
+      <button>🗓 Google Sync</button>
+    </div>
+    <div class="card section">
+      <h3>Участники</h3>
+      <div class="member-list">
+        <div class="member-row"><span class="avatar">👩</span><div><b>Анна</b><div class="mini">Администратор</div></div><span class="dot" style="background:#d97816"></span></div>
+        <div class="member-row"><span class="avatar">👨</span><div><b>Илья</b><div class="mini">Редактор</div></div><span class="dot" style="background:#3d78b8"></span></div>
+        <div class="member-row"><span class="avatar">🧒</span><div><b>Маша</b><div class="mini">Детский профиль</div></div><span class="dot" style="background:#4a7d2c"></span></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1 style="margin:0 0 6px; font-size:32px;">Семейный календарь для iPhone</h1>
+        <div class="mini">PWA-версия для теста установки через Safari → На экран Домой.</div>
+      </div>
+      <div class="top-actions">
+        <button class="btn soft" id="themeToggle">🌙 Тема</button>
+        <button class="btn soft" id="demoSync">🔄 Demo sync</button>
+      </div>
+    </div>
+
+    <section class="card hero">
+      <div class="banner"><b>Что можно тестировать:</b> мобильную навигацию, safe area, форму событий, повторы, открытие как web app и офлайн-старт после первого открытия.</div>
+      <div class="hero-grid">
+        <div class="metric"><div class="mini">Аккаунты</div><b>4</b><div class="mini">Семейные роли</div></div>
+        <div class="metric"><div class="mini">Календари</div><b>5</b><div class="mini">Общий, школа, спорт</div></div>
+        <div class="metric"><div class="mini">Realtime</div><b>&lt;1с</b><div class="mini">UI-демо</div></div>
+        <div class="metric"><div class="mini">Google Sync</div><b>2-way</b><div class="mini">Архитектурный прототип</div></div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="card section">
+        <h3>Неделя</h3>
+        <div class="calendar-grid">
+          <div class="day"><b>Пн</b><span class="event-pill" style="background:#d97816">👩 Покупки 09:00</span><span class="event-pill" style="background:#3d78b8">👨 Созвон 14:00</span></div>
+          <div class="day"><b>Вт</b><span class="event-pill" style="background:#4a7d2c">🧒 Спорт 12:00</span><span class="event-pill" style="background:#0d6d70">👨‍👩‍👧 Ужин 19:00</span></div>
+          <div class="day"><b>Ср</b><span class="event-pill" style="background:#b24784">👵 Врач 11:30</span></div>
+          <div class="day"><b>Чт</b><span class="event-pill" style="background:#4a7d2c">🧒 Спорт 12:00</span></div>
+          <div class="day"><b>Пт</b><span class="event-pill" style="background:#3d78b8">👨 Родительское 17:00</span></div>
+          <div class="day"><b>Сб</b><span class="event-pill" style="background:#0d6d70">👨‍👩‍👧 Поездка 10:00</span></div>
+          <div class="day"><b>Вс</b><span class="event-pill" style="background:#d97816">👩 План недели 20:00</span></div>
+        </div>
+      </section>
+
+      <section class="card section">
+        <h3>Realtime лента</h3>
+        <div class="event-list" id="eventFeed">
+          <div class="event-row"><span class="avatar">⚡</span><div><b>Анна изменила событие</b><div class="mini">Ужин перенесён на 19:00</div></div></div>
+          <div class="event-row"><span class="avatar">🔄</span><div><b>Google webhook</b><div class="mini">Получено внешнее обновление</div></div></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="grid-two" style="margin-top:18px;">
+      <section class="card section">
+        <h3>Повторяющаяся серия</h3>
+        <div class="field"><label>Название</label><input value="Спорт" /></div>
+        <div class="field"><label>Дни</label>
+          <div class="picker" id="daysPicker">
+            <button data-day="MO">Пн</button>
+            <button data-day="TU" class="active">Вт</button>
+            <button data-day="WE">Ср</button>
+            <button data-day="TH" class="active">Чт</button>
+            <button data-day="FR">Пт</button>
+            <button data-day="SA">Сб</button>
+            <button data-day="SU">Вс</button>
+          </div>
+        </div>
+        <div class="field"><label>Время</label><input value="12:00" /></div>
+        <div class="code" id="rruleOutput">RRULE:FREQ=WEEKLY;BYDAY=TU,TH;UNTIL=20271231T235900Z</div>
+      </section>
+
+      <section class="card section">
+        <h3>Установка на iPhone</h3>
+        <div class="status">Открой сайт в Safari → Поделиться → На экран Домой → Добавить. После этого приложение появится как иконка на домашнем экране. На iPhone web app добавляется именно из Safari. </div>
+      </section>
+    </div>
+  </main>
+
+  <aside class="panel">
+    <div class="card section">
+      <h3>Backend blueprint</h3>
+      <div class="code">families
+family_members
+calendars
+events
+recurring_series
+event_exceptions
+oauth_accounts
+sync_jobs
+webhook_channels</div>
+      <div class="status">Полноценный backend подключается позже, а эта версия нужна для теста UI, iPhone-install и PWA-поведения.</div>
+    </div>
+  </aside>
+</div>
+
+<div class="mobile-tabbar">
+  <button>🏠<br>Дом</button>
+  <button>📆<br>Неделя</button>
+  <button>➕<br>Добавить</button>
+  <button>🔄<br>Sync</button>
+  <button>👨‍👩‍👧<br>Семья</button>
+</div>
+
+<script>
+  let dark = false;
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    dark = !dark;
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    document.getElementById('themeToggle').textContent = dark ? '☀️ Тема' : '🌙 Тема';
+  });
+
+  document.getElementById('demoSync').addEventListener('click', () => {
+    const row = document.createElement('div');
+    row.className = 'event-row';
+    row.innerHTML = '<span class="avatar">📡</span><div><b>Realtime update</b><div class="mini">Событие обновилось без перезагрузки</div></div>';
+    document.getElementById('eventFeed').prepend(row);
+  });
+
+  document.querySelectorAll('#daysPicker button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const days = [...document.querySelectorAll('#daysPicker button.active')].map(b => b.dataset.day).join(',') || 'TU,TH';
+      document.getElementById('rruleOutput').textContent = 'RRULE:FREQ=WEEKLY;BYDAY=' + days + ';UNTIL=20271231T235900Z';
+    });
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
+  }
+
+  const vv = window.visualViewport;
+  if (vv) {
+    const updateViewport = () => document.documentElement.style.setProperty('--vvh', vv.height + 'px');
+    vv.addEventListener('resize', updateViewport);
+    vv.addEventListener('scroll', updateViewport);
+    updateViewport();
+  }
+</script>
+</body>
+</html>
