@@ -1,0 +1,20 @@
+{
+  "name": "Family Flow V13 Pro",
+  "short_name": "Family Flow",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f6f2",
+  "theme_color": "#0d6d70",
+  "icons": [
+    {
+      "src": "https://dummyimage.com/192x192/0d6d70/ffffff.png&text=FF",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://dummyimage.com/512x512/0d6d70/ffffff.png&text=FF",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
